@@ -9,8 +9,14 @@ class MovieSerializer(serializers.Serializer):
     description = serializers.CharField()
     duration = serializers.IntegerField()
 
-    actors = serializers.PrimaryKeyRelatedField(many=True, queryset=Actor.objects.all())
-    genres = serializers.PrimaryKeyRelatedField(many=True, queryset=Genre.objects.all())
+    actors = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Actor.objects.all()
+    )
+    genres = serializers.PrimaryKeyRelatedField(
+        many=True,
+        queryset=Genre.objects.all()
+    )
 
     def create(self, validated_data):
         actors = validated_data.pop("actors")
@@ -28,7 +34,10 @@ class MovieSerializer(serializers.Serializer):
         genres = validated_data.pop("genres", None)
 
         instance.title = validated_data.get("title", instance.title)
-        instance.description = validated_data.get("description", instance.description)
+        instance.description = validated_data.get(
+            "description",
+            instance.description
+        )
         instance.duration = validated_data.get("duration", instance.duration)
 
         instance.save()
